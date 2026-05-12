@@ -592,6 +592,11 @@
 
       const taskElement = event.target.closest(".task");
       const taskId = taskElement.dataset.id;
+      const task = allTasks.find(item => item.id === taskId);
+      const taskNameToDelete = task ? task.nombre : "esta tarea";
+
+      const confirmed = confirm(`¿Seguro que quieres eliminar: "${taskNameToDelete}"?`);
+      if (!confirmed) return;
 
       await deleteDoc(doc(db, "tareas-cybershop", taskId));
     });

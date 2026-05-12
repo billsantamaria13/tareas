@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tareas | CyberShop</title>
+  <meta name="description" content="Panel personal para registrar tareas, pagos y recordatorios del mes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-2: #080c20;
+      --card: rgba(13, 19, 44, 0.78);
+      --card-2: rgba(10, 15, 35, 0.92);
+      --text: #eef5ff;
+      --muted: #96a1bd;
+      --line: rgba(103, 232, 249, 0.18);
+      --cyan: #22d3ee;
+      --blue: #60a5fa;
+      --pink: #f472b6;
+      --green: #22c55e;
+      --yellow: #facc15;
+      --red: #ef4444;
+      --shadow: 0 22px 80px rgba(34, 211, 238, 0.12);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(34, 211, 238, 0.20), transparent 35%),
+        radial-gradient(circle at top right, rgba(244, 114, 182, 0.18), transparent 32%),
+        linear-gradient(135deg, #030712 0%, #050816 45%, #020617 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 211, 238, 0.08) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 80%);
+    }
+
+    .app {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 22px;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+
+    .panel {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.88), rgba(8, 13, 34, 0.78));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      backdrop-filter: blur(18px);
+    }
+
+    .intro {
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intro::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      right: -55px;
+      top: -55px;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.30), transparent 68%);
+      filter: blur(4px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(34, 211, 238, 0.28);
+      background: rgba(34, 211, 238, 0.08);
+      color: #bff7ff;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(34px, 6vw, 64px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #67e8f9, #60a5fa, #f472b6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 640px;
+    }
+
+    .stats {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .stat {
+      min-height: 110px;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(2, 6, 23, 0.48);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat strong {
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .form-card {
+      padding: 22px;
+      margin-bottom: 22px;
+    }
+
+    .form {
+      display: grid;
+      grid-template-columns: 1.2fr 180px 170px auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      color: #cbd5e1;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+
+    input, select, button {
+      width: 100%;
+      border: 0;
+      font: inherit;
+    }
+
+    input, select {
+      color: var(--text);
+      background: rgba(2, 6, 23, 0.72);
+      border: 1px solid rgba(103, 232, 249, 0.18);
+      border-radius: 16px;
+      padding: 14px 14px;
+      outline: none;
+      min-height: 52px;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(34, 211, 238, 0.78);
+      box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.10);
+    }
+
+    select option { background: #020617; color: var(--text); }
+
+    .btn {
+      cursor: pointer;
+      min-height: 52px;
+      border-radius: 16px;
+      color: #031018;
+      font-weight: 900;
+      background: linear-gradient(135deg, #67e8f9, #60a5fa);
+      box-shadow: 0 16px 35px rgba(34, 211, 238, 0.18);
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .btn:active { transform: translateY(0); }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .toolbar h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.72);
+      color: #dbeafe;
+      width: auto;
+      min-height: 38px;
+      padding: 0 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .chip.active {
+      border-color: rgba(34, 211, 238, 0.7);
+      box-shadow: 0 0 24px rgba(34, 211, 238, 0.16);
+    }
+
+    .task-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .task {
+      padding: 16px;
+      border-radius: 22px;
+      display: grid;
+      grid-template-columns: 1fr 170px 150px auto;
+      gap: 12px;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      box-shadow: 0 14px 45px rgba(0, 0, 0, 0.22);
+    }
+
+    .task.realizada { border-left: 5px solid var(--green); }
+    .task.pendiente { border-left: 5px solid var(--yellow); }
+    .task.cancelada { border-left: 5px solid var(--red); opacity: 0.78; }
+
+    .task-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+      box-shadow: 0 0 18px currentColor;
+    }
+
+    .realizada .dot { color: var(--green); background: var(--green); }
+    .pendiente .dot { color: var(--yellow); background: var(--yellow); }
+    .cancelada .dot { color: var(--red); background: var(--red); }
+
+    .task-title strong {
+      display: block;
+      font-size: 16px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .task-title small {
+      color: var(--muted);
+      display: block;
+      margin-top: 4px;
+    }
+
+    .date-pill {
+      display: inline-flex;
+      justify-content: center;
+      padding: 11px 12px;
+      border-radius: 14px;
+      color: #c4eeff;
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid rgba(34, 211, 238, 0.16);
+      font-weight: 800;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .delete {
+      width: 44px;
+      min-height: 44px;
+      border-radius: 14px;
+      cursor: pointer;
+      color: #fecaca;
+      background: rgba(239, 68, 68, 0.10);
+      border: 1px solid rgba(239, 68, 68, 0.24);
+      font-size: 20px;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .delete:hover {
+      transform: translateY(-2px);
+      background: rgba(239, 68, 68, 0.18);
+    }
+
+    .empty {
+      padding: 34px 18px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed rgba(148, 163, 184, 0.25);
+      border-radius: var(--radius);
+      background: rgba(15, 23, 42, 0.36);
+    }
+
+    .sync-status {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .sync-status b { color: #67e8f9; }
+
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; }
+      .form { grid-template-columns: 1fr 1fr; }
+      .form .full { grid-column: 1 / -1; }
+      .task { grid-template-columns: 1fr 150px; }
+      .task .delete { justify-self: end; }
+    }
+
+    @media (max-width: 620px) {
+      .app { width: min(100% - 22px, 1120px); padding-top: 18px; }
+      .intro, .form-card { padding: 18px; }
+      .stats { grid-template-columns: 1fr 1fr; padding: 14px; }
+      .stat { min-height: 92px; padding: 14px; }
+      .stat strong { font-size: 26px; }
+      .form { grid-template-columns: 1fr; }
+      .toolbar { align-items: flex-start; flex-direction: column; }
+      .filters { justify-content: flex-start; }
+      .task { grid-template-columns: 1fr; }
+      .task select, .task .date-pill, .task .delete { width: 100%; }
+      .task .delete { justify-self: stretch; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <div class="panel intro">
+        <span class="badge">⚡ tareas.cybershop.lat</span>
+        <h1>Panel de <span class="gradient-text">tareas</span></h1>
+        <p class="subtitle">
+          Registra recordatorios, pagos y pendientes del mes. Cambia el estado desde cualquier dispositivo y la información quedará sincronizada en la nube.
+        </p>
+      </div>
+
+      <div class="panel stats">
+        <div class="stat"><span>Total</span><strong id="totalCount">0</strong></div>
+        <div class="stat"><span>Realizadas</span><strong id="doneCount">0</strong></div>
+        <div class="stat"><span>Pendientes</span><strong id="pendingCount">0</strong></div>
+        <div class="stat"><span>Canceladas</span><strong id="cancelCount">0</strong></div>
+      </div>
+    </section>
+
+    <section class="panel form-card">
+      <form id="taskForm" class="form">
+        <div class="full">
+          <label for="taskName">Nueva tarea</label>
+          <input id="taskName" type="text" placeholder="Ej: Pagar internet, renovar dominio, llamar cliente..." autocomplete="off" required />
+        </div>
+
+        <div>
+          <label for="taskDate">Fecha</label>
+          <input id="taskDate" type="date" required />
+        </div>
+
+        <div>
+          <label for="taskStatus">Estado</label>
+          <select id="taskStatus" required>
+            <option value="pendiente">Pendiente</option>
+            <option value="realizada">Realizada</option>
+            <option value="cancelada">Cancelada</option>
+          </select>
+        </div>
+
+        <button class="btn" type="submit">Agregar</button>
+      </form>
+    </section>
+
+    <section>
+      <div class="toolbar">
+        <h2>Tareas del mes</h2>
+        <div class="filters" aria-label="Filtros de estado">
+          <button class="chip active" data-filter="todas">Todas</button>
+          <button class="chip" data-filter="realizada">Realizadas</button>
+          <button class="chip" data-filter="pendiente">Pendientes</button>
+          <button class="chip" data-filter="cancelada">Canceladas</button>
+        </div>
+      </div>
+      <div id="taskList" class="task-list"></div>
+      <p class="sync-status" id="syncStatus">Conectando con <b>Firestore</b>...</p>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      deleteDoc,
+      doc,
+      updateDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    // 1) Reemplaza estos datos con la configuración de tu app web de Firebase.
+    // Firebase Console > Project settings > Your apps > Web app > SDK setup and configuration.
+    const firebaseConfig = {
+      apiKey: "PEGA_AQUI_TU_API_KEY",
+      authDomain: "PEGA_AQUI_TU_AUTH_DOMAIN",
+      projectId: "PEGA_AQUI_TU_PROJECT_ID",
+      storageBucket: "PEGA_AQUI_TU_STORAGE_BUCKET",
+      messagingSenderId: "PEGA_AQUI_TU_MESSAGING_SENDER_ID",
+      appId: "PEGA_AQUI_TU_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const tasksRef = collection(db, "tareas-cybershop");
+
+    const form = document.querySelector("#taskForm");
+    const taskName = document.querySelector("#taskName");
+    const taskDate = document.querySelector("#taskDate");
+    const taskStatus = document.querySelector("#taskStatus");
+    const taskList = document.querySelector("#taskList");
+    const syncStatus = document.querySelector("#syncStatus");
+    const chips = document.querySelectorAll(".chip");
+
+    const totalCount = document.querySelector("#totalCount");
+    const doneCount = document.querySelector("#doneCount");
+    const pendingCount = document.querySelector("#pendingCount");
+    const cancelCount = document.querySelector("#cancelCount");
+
+    let allTasks = [];
+    let activeFilter = "todas";
+
+    taskDate.valueAsDate = new Date();
+
+    const statusLabels = {
+      realizada: "Realizada",
+      pendiente: "Pendiente",
+      cancelada: "Cancelada"
+    };
+
+    function formatDate(dateString) {
+      if (!dateString) return "Sin fecha";
+      const [year, month, day] = dateString.split("-");
+      return `${day}/${month}/${year}`;
+    }
+
+    function escapeHTML(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function updateStats(tasks) {
+      totalCount.textContent = tasks.length;
+      doneCount.textContent = tasks.filter(task => task.estado === "realizada").length;
+      pendingCount.textContent = tasks.filter(task => task.estado === "pendiente").length;
+      cancelCount.textContent = tasks.filter(task => task.estado === "cancelada").length;
+    }
+
+    function renderTasks() {
+      const filteredTasks = activeFilter === "todas"
+        ? allTasks
+        : allTasks.filter(task => task.estado === activeFilter);
+
+      updateStats(allTasks);
+
+      if (filteredTasks.length === 0) {
+        taskList.innerHTML = `<div class="empty">No hay tareas para este filtro. Agrega una nueva arriba.</div>`;
+        return;
+      }
+
+      taskList.innerHTML = filteredTasks.map(task => `
+        <article class="task ${task.estado}" data-id="${task.id}">
+          <div class="task-title">
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <strong>${escapeHTML(task.nombre)}</strong>
+              <small>Estado actual: ${statusLabels[task.estado] || "Pendiente"}</small>
+            </div>
+          </div>
+
+          <span class="date-pill">${formatDate(task.fecha)}</span>
+
+          <select class="status-select" aria-label="Cambiar estado de ${escapeHTML(task.nombre)}">
+            <option value="realizada" ${task.estado === "realizada" ? "selected" : ""}>🟢 Realizada</option>
+            <option value="pendiente" ${task.estado === "pendiente" ? "selected" : ""}>🟡 Pendiente</option>
+            <option value="cancelada" ${task.estado === "cancelada" ? "selected" : ""}>🔴 Cancelada</option>
+          </select>
+
+          <button class="delete" title="Eliminar tarea" aria-label="Eliminar ${escapeHTML(task.nombre)}">×</button>
+        </article>
+      `).join("");
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const nombre = taskName.value.trim();
+      const fecha = taskDate.value;
+      const estado = taskStatus.value;
+
+      if (!nombre || !fecha) return;
+
+      await addDoc(tasksRef, {
+        nombre,
+        fecha,
+        estado,
+        creado: serverTimestamp()
+      });
+
+      taskName.value = "";
+      taskStatus.value = "pendiente";
+      taskDate.valueAsDate = new Date();
+      taskName.focus();
+    });
+
+    taskList.addEventListener("change", async (event) => {
+      if (!event.target.classList.contains("status-select")) return;
+
+      const taskElement = event.target.closest(".task");
+      const taskId = taskElement.dataset.id;
+      const newStatus = event.target.value;
+
+      await updateDoc(doc(db, "tareas-cybershop", taskId), {
+        estado: newStatus
+      });
+    });
+
+    taskList.addEventListener("click", async (event) => {
+      if (!event.target.classList.contains("delete")) return;
+
+      const taskElement = event.target.closest(".task");
+      const taskId = taskElement.dataset.id;
+
+      await deleteDoc(doc(db, "tareas-cybershop", taskId));
+    });
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        chips.forEach(item => item.classList.remove("active"));
+        chip.classList.add("active");
+        activeFilter = chip.dataset.filter;
+        renderTasks();
+      });
+    });
+
+    const q = query(tasksRef, orderBy("fecha", "asc"));
+
+    onSnapshot(q, (snapshot) => {
+      allTasks = snapshot.docs.map(item => ({
+        id: item.id,
+        ...item.data()
+      }));
+      renderTasks();
+      syncStatus.innerHTML = `Sincronizado con <b>Firestore</b>. Cambios guardados en la nube.`;
+    }, (error) => {
+      console.error(error);
+      syncStatus.innerHTML = `No se pudo conectar con Firestore. Revisa tu configuración y reglas.`;
+    });
+  </script>
+</body>
+</html>

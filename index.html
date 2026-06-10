@@ -268,7 +268,7 @@
       padding: 16px;
       border-radius: 22px;
       display: grid;
-      grid-template-columns: 1fr 170px 150px auto;
+      grid-template-columns: 1fr 180px auto;
       gap: 12px;
       align-items: center;
       background: var(--card);
@@ -403,28 +403,31 @@
     </section>
 
     <section class="panel form-card">
-      <form id="taskForm" class="form">
-        <div class="full">
-          <label for="taskName">Nueva tarea</label>
-          <input id="taskName" type="text" placeholder="Ej: Pagar internet, renovar dominio, llamar cliente..." autocomplete="off" required />
-        </div>
+     <form id="taskForm" class="form">
+  <div class="full">
+    <label for="taskName">Nueva tarea</label>
+    <input
+      id="taskName"
+      type="text"
+      placeholder="Ej: Llamar cliente, revisar inventario, pagar hosting..."
+      autocomplete="off"
+      required
+    />
+  </div>
 
-        <div>
-          <label for="taskDate">Fecha</label>
-          <input id="taskDate" type="date" required />
-        </div>
+  <div>
+    <label for="taskStatus">Estado</label>
+    <select id="taskStatus" required>
+      <option value="pendiente">Pendiente</option>
+      <option value="realizada">Realizada</option>
+      <option value="cancelada">Cancelada</option>
+    </select>
+  </div>
 
-        <div>
-          <label for="taskStatus">Estado</label>
-          <select id="taskStatus" required>
-            <option value="pendiente">Pendiente</option>
-            <option value="realizada">Realizada</option>
-            <option value="cancelada">Cancelada</option>
-          </select>
-        </div>
-
-        <button class="btn" type="submit">Agregar</button>
-      </form>
+  <button class="btn" type="submit">
+    Agregar
+  </button>
+</form>
     </section>
 
     <section>
@@ -474,7 +477,7 @@
 
     const form = document.querySelector("#taskForm");
     const taskName = document.querySelector("#taskName");
-    const taskDate = document.querySelector("#taskDate");
+   
     const taskStatus = document.querySelector("#taskStatus");
     const taskList = document.querySelector("#taskList");
     const syncStatus = document.querySelector("#syncStatus");
@@ -488,7 +491,7 @@
     let allTasks = [];
     let activeFilter = "todas";
 
-    taskDate.valueAsDate = new Date();
+   
 
     const statusLabels = {
       realizada: "Realizada",
@@ -496,12 +499,7 @@
       cancelada: "Cancelada"
     };
 
-    function formatDate(dateString) {
-      if (!dateString) return "Sin fecha";
-      const [year, month, day] = dateString.split("-");
-      return `${day}/${month}/${year}`;
-    }
-
+  
     function escapeHTML(value) {
       return String(value)
         .replaceAll("&", "&amp;")
@@ -540,7 +538,7 @@
             </div>
           </div>
 
-          <span class="date-pill">${formatDate(task.fecha)}</span>
+          
 
           <select class="status-select" aria-label="Cambiar estado de ${escapeHTML(task.nombre)}">
             <option value="realizada" ${task.estado === "realizada" ? "selected" : ""}>🟢 Realizada</option>
@@ -557,21 +555,20 @@
       event.preventDefault();
 
       const nombre = taskName.value.trim();
-      const fecha = taskDate.value;
+      
       const estado = taskStatus.value;
 
-      if (!nombre || !fecha) return;
+       if (!nombre) return;
 
-      await addDoc(tasksRef, {
-        nombre,
-        fecha,
-        estado,
-        creado: serverTimestamp()
-      });
+       await addDoc(tasksRef, {
+      nombre,
+      estado,
+      creado: serverTimestamp()
+    });
 
       taskName.value = "";
       taskStatus.value = "pendiente";
-      taskDate.valueAsDate = new Date();
+     
       taskName.focus();
     });
 

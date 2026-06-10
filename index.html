@@ -447,18 +447,16 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      deleteDoc,
-      doc,
-      updateDoc,
-      onSnapshot,
-      query,
-      orderBy,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+     import {
+        getFirestore,
+        collection,
+        addDoc,
+        deleteDoc,
+        doc,
+        updateDoc,
+        onSnapshot,
+        serverTimestamp
+      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
     // 1) Reemplaza estos datos con la configuración de tu app web de Firebase.
     // Firebase Console > Project settings > Your apps > Web app > SDK setup and configuration.
@@ -607,7 +605,7 @@
       });
     });
 
-    const q = query(tasksRef, orderBy("fecha", "asc"));
+    const q = query(tasksRef, orderBy("creado", "desc"));
 
     onSnapshot(q, (snapshot) => {
       allTasks = snapshot.docs.map(item => ({

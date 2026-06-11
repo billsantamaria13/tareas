@@ -24,6 +24,9 @@
       --green: #22c55e;
       --yellow: #facc15;
       --red: #ef4444;
+      --purple: #a78bfa;
+      --orange: #fb923c;
+      --teal: #2dd4bf;
       --shadow: 0 22px 80px rgba(34, 211, 238, 0.12);
       --radius: 24px;
     }
@@ -163,6 +166,178 @@
       letter-spacing: 0.08em;
     }
 
+    /* ── Category Navigation ── */
+    .category-nav {
+      margin-bottom: 22px;
+      padding: 16px 20px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .category-nav::-webkit-scrollbar { display: none; }
+
+    .cat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      background: rgba(15, 23, 42, 0.60);
+      color: #cbd5e1;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 13.5px;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cat-pill::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .cat-pill:hover {
+      transform: translateY(-2px);
+      border-color: rgba(148, 163, 184, 0.30);
+    }
+
+    .cat-pill .cat-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .cat-pill .cat-count {
+      background: rgba(255,255,255,0.08);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-left: 2px;
+    }
+
+    /* Category active states with unique colors */
+    .cat-pill.active {
+      transform: translateY(-2px);
+    }
+
+    .cat-pill[data-cat="todas"].active {
+      background: rgba(34, 211, 238, 0.12);
+      border-color: rgba(34, 211, 238, 0.5);
+      color: #67e8f9;
+      box-shadow: 0 0 28px rgba(34, 211, 238, 0.15);
+    }
+    .cat-pill[data-cat="todas"].active .cat-count { background: rgba(34, 211, 238, 0.18); }
+
+    .cat-pill[data-cat="compras"].active {
+      background: rgba(96, 165, 250, 0.12);
+      border-color: rgba(96, 165, 250, 0.5);
+      color: #93bbfd;
+      box-shadow: 0 0 28px rgba(96, 165, 250, 0.15);
+    }
+    .cat-pill[data-cat="compras"].active .cat-count { background: rgba(96, 165, 250, 0.18); }
+
+    .cat-pill[data-cat="pagos_hogar"].active {
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.5);
+      color: #4ade80;
+      box-shadow: 0 0 28px rgba(34, 197, 94, 0.15);
+    }
+    .cat-pill[data-cat="pagos_hogar"].active .cat-count { background: rgba(34, 197, 94, 0.18); }
+
+    .cat-pill[data-cat="pagos_personales"].active {
+      background: rgba(244, 114, 182, 0.12);
+      border-color: rgba(244, 114, 182, 0.5);
+      color: #f9a8d4;
+      box-shadow: 0 0 28px rgba(244, 114, 182, 0.15);
+    }
+    .cat-pill[data-cat="pagos_personales"].active .cat-count { background: rgba(244, 114, 182, 0.18); }
+
+    .cat-pill[data-cat="pagos_tramites"].active {
+      background: rgba(167, 139, 250, 0.12);
+      border-color: rgba(167, 139, 250, 0.5);
+      color: #c4b5fd;
+      box-shadow: 0 0 28px rgba(167, 139, 250, 0.15);
+    }
+    .cat-pill[data-cat="pagos_tramites"].active .cat-count { background: rgba(167, 139, 250, 0.18); }
+
+    .cat-pill[data-cat="camioneta"].active {
+      background: rgba(251, 146, 60, 0.12);
+      border-color: rgba(251, 146, 60, 0.5);
+      color: #fdba74;
+      box-shadow: 0 0 28px rgba(251, 146, 60, 0.15);
+    }
+    .cat-pill[data-cat="camioneta"].active .cat-count { background: rgba(251, 146, 60, 0.18); }
+
+    .cat-pill[data-cat="medico"].active {
+      background: rgba(45, 212, 191, 0.12);
+      border-color: rgba(45, 212, 191, 0.5);
+      color: #5eead4;
+      box-shadow: 0 0 28px rgba(45, 212, 191, 0.15);
+    }
+    .cat-pill[data-cat="medico"].active .cat-count { background: rgba(45, 212, 191, 0.18); }
+
+    /* ── Category badge on task cards ── */
+    .task-cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-top: 6px;
+      width: fit-content;
+    }
+
+    .task-cat-badge[data-cat="compras"] {
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.28);
+      color: #93bbfd;
+    }
+    .task-cat-badge[data-cat="pagos_hogar"] {
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.28);
+      color: #4ade80;
+    }
+    .task-cat-badge[data-cat="pagos_personales"] {
+      background: rgba(244, 114, 182, 0.12);
+      border: 1px solid rgba(244, 114, 182, 0.28);
+      color: #f9a8d4;
+    }
+    .task-cat-badge[data-cat="pagos_tramites"] {
+      background: rgba(167, 139, 250, 0.12);
+      border: 1px solid rgba(167, 139, 250, 0.28);
+      color: #c4b5fd;
+    }
+    .task-cat-badge[data-cat="camioneta"] {
+      background: rgba(251, 146, 60, 0.12);
+      border: 1px solid rgba(251, 146, 60, 0.28);
+      color: #fdba74;
+    }
+    .task-cat-badge[data-cat="medico"] {
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.28);
+      color: #5eead4;
+    }
+    .task-cat-badge[data-cat="general"] {
+      background: rgba(148, 163, 184, 0.10);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      color: #94a3b8;
+    }
+
+    /* ── Form ── */
     .form-card {
       padding: 22px;
       margin-bottom: 22px;
@@ -170,7 +345,7 @@
 
     .form {
       display: grid;
-      grid-template-columns: 1.2fr 180px 170px auto;
+      grid-template-columns: 1.2fr 180px 180px auto;
       gap: 12px;
       align-items: end;
     }
@@ -274,6 +449,12 @@
       background: var(--card);
       border: 1px solid rgba(148, 163, 184, 0.14);
       box-shadow: 0 14px 45px rgba(0, 0, 0, 0.22);
+      animation: taskIn 0.35s ease both;
+    }
+
+    @keyframes taskIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .task.realizada { border-left: 5px solid var(--green); }
@@ -312,19 +493,6 @@
       margin-top: 4px;
     }
 
-    .date-pill {
-      display: inline-flex;
-      justify-content: center;
-      padding: 11px 12px;
-      border-radius: 14px;
-      color: #c4eeff;
-      background: rgba(34, 211, 238, 0.08);
-      border: 1px solid rgba(34, 211, 238, 0.16);
-      font-weight: 800;
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
     .delete {
       width: 44px;
       min-height: 44px;
@@ -360,6 +528,26 @@
 
     .sync-status b { color: #67e8f9; }
 
+    /* ── Section title for category view ── */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(148, 163, 184, 0.14);
+    }
+
     @media (max-width: 920px) {
       .hero { grid-template-columns: 1fr; }
       .form { grid-template-columns: 1fr 1fr; }
@@ -378,8 +566,10 @@
       .toolbar { align-items: flex-start; flex-direction: column; }
       .filters { justify-content: flex-start; }
       .task { grid-template-columns: 1fr; }
-      .task select, .task .date-pill, .task .delete { width: 100%; }
+      .task select, .task .delete { width: 100%; }
       .task .delete { justify-self: stretch; }
+      .category-nav { padding: 14px 16px; gap: 8px; }
+      .cat-pill { padding: 8px 14px; font-size: 12.5px; }
     }
   </style>
 </head>
@@ -402,34 +592,73 @@
       </div>
     </section>
 
+    <!-- ── Category Navigation ── -->
+    <nav class="panel category-nav" id="categoryNav" aria-label="Filtro por categoría">
+      <button class="cat-pill active" data-cat="todas">
+        <span class="cat-icon">📋</span> Todas <span class="cat-count" id="catCount_todas">0</span>
+      </button>
+      <button class="cat-pill" data-cat="compras">
+        <span class="cat-icon">🛒</span> Compras <span class="cat-count" id="catCount_compras">0</span>
+      </button>
+      <button class="cat-pill" data-cat="pagos_hogar">
+        <span class="cat-icon">🏠</span> Pagos Hogar <span class="cat-count" id="catCount_pagos_hogar">0</span>
+      </button>
+      <button class="cat-pill" data-cat="pagos_personales">
+        <span class="cat-icon">💳</span> Pagos Personales <span class="cat-count" id="catCount_pagos_personales">0</span>
+      </button>
+      <button class="cat-pill" data-cat="pagos_tramites">
+        <span class="cat-icon">📄</span> Pagos Trámites <span class="cat-count" id="catCount_pagos_tramites">0</span>
+      </button>
+      <button class="cat-pill" data-cat="camioneta">
+        <span class="cat-icon">🚗</span> Camioneta <span class="cat-count" id="catCount_camioneta">0</span>
+      </button>
+      <button class="cat-pill" data-cat="medico">
+        <span class="cat-icon">🏥</span> Médico <span class="cat-count" id="catCount_medico">0</span>
+      </button>
+    </nav>
+
+    <!-- ── Form ── -->
     <section class="panel form-card">
-     <form id="taskForm" class="form">
-  <div class="full">
-    <label for="taskName">Nueva tarea</label>
-    <input
-      id="taskName"
-      type="text"
-      placeholder="Ej: Llamar cliente, revisar inventario, pagar hosting..."
-      autocomplete="off"
-      required
-    />
-  </div>
+      <form id="taskForm" class="form">
+        <div class="full">
+          <label for="taskName">Nueva tarea</label>
+          <input
+            id="taskName"
+            type="text"
+            placeholder="Ej: Llamar cliente, revisar inventario, pagar hosting..."
+            autocomplete="off"
+            required
+          />
+        </div>
 
-  <div>
-    <label for="taskStatus">Estado</label>
-    <select id="taskStatus" required>
-      <option value="pendiente">Pendiente</option>
-      <option value="realizada">Realizada</option>
-      <option value="cancelada">Cancelada</option>
-    </select>
-  </div>
+        <div>
+          <label for="taskCategory">Categoría</label>
+          <select id="taskCategory" required>
+            <option value="compras">🛒 Compras</option>
+            <option value="pagos_hogar">🏠 Pagos Hogar</option>
+            <option value="pagos_personales">💳 Pagos Personales</option>
+            <option value="pagos_tramites">📄 Pagos Trámites</option>
+            <option value="camioneta">🚗 Camioneta</option>
+            <option value="medico">🏥 Médico</option>
+          </select>
+        </div>
 
-  <button class="btn" type="submit">
-    Agregar
-  </button>
-</form>
+        <div>
+          <label for="taskStatus">Estado</label>
+          <select id="taskStatus" required>
+            <option value="pendiente">Pendiente</option>
+            <option value="realizada">Realizada</option>
+            <option value="cancelada">Cancelada</option>
+          </select>
+        </div>
+
+        <button class="btn" type="submit">
+          Agregar
+        </button>
+      </form>
     </section>
 
+    <!-- ── Task list ── -->
     <section>
       <div class="toolbar">
         <h2>Tareas del mes</h2>
@@ -447,19 +676,20 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-     import {
-        getFirestore,
-        collection,
-        addDoc,
-        deleteDoc,
-        doc,
-        updateDoc,
-        onSnapshot,
-        serverTimestamp
-      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      deleteDoc,
+      doc,
+      updateDoc,
+      onSnapshot,
+      serverTimestamp,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    // 1) Reemplaza estos datos con la configuración de tu app web de Firebase.
-    // Firebase Console > Project settings > Your apps > Web app > SDK setup and configuration.
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyAKD0mvp6koDmSib_HAUG3IVwqAgZa1JM",
       authDomain: "tareas-cybershop.firebaseapp.com",
@@ -473,13 +703,15 @@
     const db = getFirestore(app);
     const tasksRef = collection(db, "tareas-cybershop");
 
+    // DOM refs
     const form = document.querySelector("#taskForm");
     const taskName = document.querySelector("#taskName");
-   
+    const taskCategory = document.querySelector("#taskCategory");
     const taskStatus = document.querySelector("#taskStatus");
     const taskList = document.querySelector("#taskList");
     const syncStatus = document.querySelector("#syncStatus");
     const chips = document.querySelectorAll(".chip");
+    const catPills = document.querySelectorAll(".cat-pill");
 
     const totalCount = document.querySelector("#totalCount");
     const doneCount = document.querySelector("#doneCount");
@@ -488,8 +720,7 @@
 
     let allTasks = [];
     let activeFilter = "todas";
-
-   
+    let activeCategory = "todas";
 
     const statusLabels = {
       realizada: "Realizada",
@@ -497,7 +728,26 @@
       cancelada: "Cancelada"
     };
 
-  
+    const categoryLabels = {
+      compras: "Compras",
+      pagos_hogar: "Pagos Hogar",
+      pagos_personales: "Pagos Personales",
+      pagos_tramites: "Pagos Trámites",
+      camioneta: "Camioneta",
+      medico: "Médico",
+      general: "General"
+    };
+
+    const categoryIcons = {
+      compras: "🛒",
+      pagos_hogar: "🏠",
+      pagos_personales: "💳",
+      pagos_tramites: "📄",
+      camioneta: "🚗",
+      medico: "🏥",
+      general: "📌"
+    };
+
     function escapeHTML(value) {
       return String(value)
         .replaceAll("&", "&amp;")
@@ -508,35 +758,67 @@
     }
 
     function updateStats(tasks) {
-      totalCount.textContent = tasks.length;
-      doneCount.textContent = tasks.filter(task => task.estado === "realizada").length;
-      pendingCount.textContent = tasks.filter(task => task.estado === "pendiente").length;
-      cancelCount.textContent = tasks.filter(task => task.estado === "cancelada").length;
+      // Stats reflect category-filtered tasks when a category is active
+      const base = activeCategory === "todas"
+        ? tasks
+        : tasks.filter(t => (t.categoria || "general") === activeCategory);
+
+      totalCount.textContent = base.length;
+      doneCount.textContent = base.filter(t => t.estado === "realizada").length;
+      pendingCount.textContent = base.filter(t => t.estado === "pendiente").length;
+      cancelCount.textContent = base.filter(t => t.estado === "cancelada").length;
+    }
+
+    function updateCategoryCounts() {
+      // Total
+      const el = document.querySelector("#catCount_todas");
+      if (el) el.textContent = allTasks.length;
+
+      // Per-category
+      const cats = ["compras", "pagos_hogar", "pagos_personales", "pagos_tramites", "camioneta", "medico"];
+      cats.forEach(cat => {
+        const badge = document.querySelector(`#catCount_${cat}`);
+        if (badge) {
+          badge.textContent = allTasks.filter(t => (t.categoria || "general") === cat).length;
+        }
+      });
     }
 
     function renderTasks() {
-      const filteredTasks = activeFilter === "todas"
-        ? allTasks
-        : allTasks.filter(task => task.estado === activeFilter);
+      // Apply both filters: category + status
+      let filtered = allTasks;
+
+      if (activeCategory !== "todas") {
+        filtered = filtered.filter(t => (t.categoria || "general") === activeCategory);
+      }
+
+      if (activeFilter !== "todas") {
+        filtered = filtered.filter(t => t.estado === activeFilter);
+      }
 
       updateStats(allTasks);
+      updateCategoryCounts();
 
-      if (filteredTasks.length === 0) {
+      if (filtered.length === 0) {
         taskList.innerHTML = `<div class="empty">No hay tareas para este filtro. Agrega una nueva arriba.</div>`;
         return;
       }
 
-      taskList.innerHTML = filteredTasks.map(task => `
-        <article class="task ${task.estado}" data-id="${task.id}">
+      taskList.innerHTML = filtered.map((task, i) => {
+        const cat = task.categoria || "general";
+        const catLabel = categoryLabels[cat] || "General";
+        const catIcon = categoryIcons[cat] || "📌";
+
+        return `
+        <article class="task ${task.estado}" data-id="${task.id}" style="animation-delay: ${i * 0.04}s">
           <div class="task-title">
             <span class="dot" aria-hidden="true"></span>
             <div>
               <strong>${escapeHTML(task.nombre)}</strong>
               <small>Estado actual: ${statusLabels[task.estado] || "Pendiente"}</small>
+              <span class="task-cat-badge" data-cat="${cat}">${catIcon} ${escapeHTML(catLabel)}</span>
             </div>
           </div>
-
-          
 
           <select class="status-select" aria-label="Cambiar estado de ${escapeHTML(task.nombre)}">
             <option value="realizada" ${task.estado === "realizada" ? "selected" : ""}>🟢 Realizada</option>
@@ -546,30 +828,32 @@
 
           <button class="delete" title="Eliminar tarea" aria-label="Eliminar ${escapeHTML(task.nombre)}">×</button>
         </article>
-      `).join("");
+      `}).join("");
     }
 
+    // ── Add task ──
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       const nombre = taskName.value.trim();
-      
+      const categoria = taskCategory.value;
       const estado = taskStatus.value;
 
-       if (!nombre) return;
+      if (!nombre) return;
 
-       await addDoc(tasksRef, {
-      nombre,
-      estado,
-      creado: serverTimestamp()
-    });
+      await addDoc(tasksRef, {
+        nombre,
+        categoria,
+        estado,
+        creado: serverTimestamp()
+      });
 
       taskName.value = "";
       taskStatus.value = "pendiente";
-     
       taskName.focus();
     });
 
+    // ── Change status ──
     taskList.addEventListener("change", async (event) => {
       if (!event.target.classList.contains("status-select")) return;
 
@@ -582,6 +866,7 @@
       });
     });
 
+    // ── Delete task ──
     taskList.addEventListener("click", async (event) => {
       if (!event.target.classList.contains("delete")) return;
 
@@ -596,6 +881,7 @@
       await deleteDoc(doc(db, "tareas-cybershop", taskId));
     });
 
+    // ── Status filter chips ──
     chips.forEach(chip => {
       chip.addEventListener("click", () => {
         chips.forEach(item => item.classList.remove("active"));
@@ -605,6 +891,17 @@
       });
     });
 
+    // ── Category filter pills ──
+    catPills.forEach(pill => {
+      pill.addEventListener("click", () => {
+        catPills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+        activeCategory = pill.dataset.cat;
+        renderTasks();
+      });
+    });
+
+    // ── Real-time listener ──
     const q = query(tasksRef, orderBy("creado", "desc"));
 
     onSnapshot(q, (snapshot) => {
